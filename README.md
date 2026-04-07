@@ -20,36 +20,44 @@ This tool consists of three core components:
 **Requirements:** Python 3.8+
 
 1. Clone the repository:
+```bash
    git clone https://github.com/082621/comp3011-search-engine.git
    cd comp3011-search-engine
+```
 
 2. Create and activate a virtual environment:
+```bash
    python3 -m venv .venv
    source .venv/bin/activate      # Mac/Linux
    .venv\Scripts\activate         # Windows
+```
 
 3. Install dependencies:
+```bash
    pip install -r requirements.txt
+```
 
 ---
 
 ## Usage
 
 Start the search tool:
-   python3 -m src.main
+```bash
+python3 -m src.main
+```
 
 ### Commands
 
 | Command | Description | Example |
 |---|---|---|
-| build | Crawl the website and build the index | > build |
-| load | Load a previously built index from disk | > load |
-| print <word> | Print the inverted index entry for a word | > print good |
-| find <query> | Find all pages containing the query words | > find good friends |
-| quit | Exit the program | > quit |
+| `build` | Crawl the website and build the index | `> build` |
+| `load` | Load a previously built index from disk | `> load` |
+| `print <word>` | Print the inverted index entry for a word | `> print good` |
+| `find <query>` | Find all pages containing the query words | `> find good friends` |
+| `quit` | Exit the program | `> quit` |
 
 ### Example Session
-
+```
 > load
 Index loaded from data/index.json (3842 words)
 
@@ -73,32 +81,39 @@ Found 1 page(s) for 'good friends':
 
 > find zzzzz
 No pages found for 'zzzzz'.
-
+```
 ---
 
 ## Inverted Index Structure
 
-The index is stored as a JSON file at data/index.json with the following structure:
-
+The index is stored as a JSON file at `data/index.json` with the following structure:
+```json
+{
   "good": {
     "https://quotes.toscrape.com/": {
       "frequency": 2,
       "positions": [45, 103]
     }
   }
+}
+```
 
-- frequency: number of times the word appears on that page
-- positions: token positions of each occurrence (0-indexed)
+- **frequency**: number of times the word appears on that page
+- **positions**: token positions of each occurrence (0-indexed)
 
 ---
 
 ## Testing
 
 Run the full test suite:
-   python3 -m pytest tests/ -v
+```bash
+python3 -m pytest tests/ -v
+```
 
 Run with coverage report:
-   python3 -m pytest tests/ --cov=src --cov-report=term-missing
+```bash
+python3 -m pytest tests/ --cov=src --cov-report=term-missing
+```
 
 The test suite covers:
 - Crawler: URL validation, link extraction, politeness window, error handling
@@ -111,25 +126,11 @@ The test suite covers:
 
 | Package | Purpose |
 |---|---|
-| requests | HTTP requests for web crawling |
-| beautifulsoup4 | HTML parsing and text extraction |
-| pytest | Test framework |
-| pytest-cov | Test coverage reporting |
+| `requests` | HTTP requests for web crawling |
+| `beautifulsoup4` | HTML parsing and text extraction |
+| `pytest` | Test framework |
+| `pytest-cov` | Test coverage reporting |
 
 ---
 
 ## Architecture
-
-src/
-  crawler.py   - Web crawler with politeness window
-  indexer.py   - Inverted index builder and storage
-  search.py    - Query processor (print + find)
-  main.py      - Command-line interface
-
-tests/
-  test_crawler.py
-  test_indexer.py
-  test_search.py
-
-data/
-  index.json   - Compiled inverted index
